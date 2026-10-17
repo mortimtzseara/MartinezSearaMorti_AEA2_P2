@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: D_BigAsteroid
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidData
   maxHealth: 4
-  color: {r: 1, g: 0, b: 0, a: 0}
+  color: {r: 1, g: 0, b: 0, a: 1}
   scale: 1.6
   minSpeed: 1
   maxSpeed: 1.5
   points: 100
+  damage: 1

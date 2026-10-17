@@ -1,4 +1,3 @@
-using UnityEditor.Toolbars;
 using UnityEngine;
 // Init() ja està implementat (el fem servir per donar-li tota la informació al prefab del Asteroid)
 [RequireComponent(typeof(Rigidbody2D))]

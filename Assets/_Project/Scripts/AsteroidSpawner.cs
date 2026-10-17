@@ -66,7 +66,6 @@ public class AsteroidSpawner : MonoBehaviour
             Debug.LogWarning("AsteroidSpawner: the pool returned null. Is GetAsteroid() implemented?");
             return;
         }
-
         asteroid.Init(data, direction);
     }
 

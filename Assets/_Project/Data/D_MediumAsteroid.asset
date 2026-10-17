@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: D_MediumAsteroid
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidData
   maxHealth: 2
-  color: {r: 0.9433962, g: 0.5628135, b: 0, a: 0}
+  color: {r: 0.9433962, g: 0.5628135, b: 0, a: 1}
   scale: 1
   minSpeed: 2
   maxSpeed: 3
   points: 50
+  damage: 1

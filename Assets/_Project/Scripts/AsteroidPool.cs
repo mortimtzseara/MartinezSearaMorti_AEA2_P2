@@ -16,8 +16,7 @@ public class AsteroidPool : MonoBehaviour
         // TODO:
         //   Singleton.
         //   Fer les comprovacions necessàries perquè només hi hagi una instància d'aquest singleton 
-        // TODO:Inicialitza aquí la Pool amb base que es farà servir. 
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -25,8 +24,9 @@ public class AsteroidPool : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        // TODO:Inicialitza aquí la Pool amb base que es farà servir.         
 
-        for(int i = 0; i < initialSize; i++)
+        for (int i = 0; i < initialSize; i++)
         {
             pool.Push(CreateAsteroid());
         }

@@ -49,6 +49,8 @@ public class Bullet : MonoBehaviour
             Asteroid asteroid = other.GetComponent<Asteroid>();
 
             if (asteroid != null) asteroid.TakeDamage(damage);
+
+            BulletPool.Instance.ReturnBullet(this);
         }
     }
 }

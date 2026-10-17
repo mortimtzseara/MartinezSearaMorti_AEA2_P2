@@ -68,7 +68,8 @@ public class GameManager : MonoBehaviour
         {
 			lives -= amount;
 
-			if (amount <= 0) GameOver();
+			if (lives <= 0) GameOver();
+            UpdateUI();
 		}
     }
 
