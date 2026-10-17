@@ -47,7 +47,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     private void SpawnAsteroid()
     {
-        // On farà spsw l'ateroide
+        // On farà spawn l'asteroide
         Vector2 spawnPosition = GetRandomEdgePosition();
 
         // Quina direcció agafarà

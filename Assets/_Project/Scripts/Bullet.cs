@@ -8,19 +8,22 @@ public class Bullet : MonoBehaviour
     [SerializeField] private int damage = 1;
 
     private float lifeTimer;
-    private Rigidbody2D rb;
+    private Rigidbody2D rbBullet;
 
     private void Awake()
     {
         // TODO: guarda el component Rigidboy (rb)
+        rbBullet = gameObject.GetComponent<Rigidbody2D>();
     }
 
     public void Init()
     {
         // TODO: fem reset al lifeTimer.
+        lifeTimer = lifeTime;
 
         // TODO: fem que la bullet es mogui cap al seu Forward.
         // "Forward" per un 2D sprite pointing up is transform.up // rb.linearVelocity = ...
+        rbBullet.linearVelocity = transform.up * speed;
 
     }
 
@@ -28,6 +31,8 @@ public class Bullet : MonoBehaviour
     {
         // TODO: Restem Time.deltaTime a lifeTimer.
         //       si arriba a 0 retorna la bullet amb BulletPool.Instance.ReturnBullet(this).
+        lifeTimer -= Time.deltaTime;
+        if (lifeTimer <= 0) BulletPool.Instance.ReturnBullet(this);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -37,6 +42,13 @@ public class Bullet : MonoBehaviour
         //   això evitarà que es retorni la mateixa bullet si aquesta impacta 2 Asteroides en el mateix frame.
         //   comprova si 'other' és un Ateroid i quedat amb el component (GetComponent<Asteroid>()).
         //   si no és null TakeDamage(damage) i retorna la bullet a la seva pool (asteroid != null).
+        if (!gameObject.activeSelf) return;
 
+        if (other.CompareTag("Asteroid"))
+        {
+            Asteroid asteroid = other.GetComponent<Asteroid>();
+
+            if (asteroid != null) asteroid.TakeDamage(damage);
+        }
     }
 }

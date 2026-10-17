@@ -7,16 +7,17 @@ public class Asteroid : MonoBehaviour
 {
     // Una mica més gran que la distancia d'aparició
     [SerializeField] private float despawnDistance = 15f;
+    private Rigidbody2D rbAsteroid;
+    private SpriteRenderer srAsteroid;
 
     private AsteroidData data;
     private int currentHealth;
 
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-
     private void Awake()
     {
         //TODO Agafem el component RigidBody2D i SpriteRenderer.
+        rbAsteroid = gameObject.GetComponent<Rigidbody2D>();
+        srAsteroid = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Cridem aquest mètode cada vegada que un Asteroid surt de la pool.
@@ -24,13 +25,13 @@ public class Asteroid : MonoBehaviour
     {
         data = newData;
 
-       // TODO: passa els valorsdel ScriptableObject a Variables locals
-       // currentHealth = data.maxHealth;
-       // spriteRenderer.color = data.color;
-       // transform.localScale = Vector3.one * data.scale;
-       // float speed = Random.Range(data.minSpeed, data.maxSpeed);
+        // TODO: passa els valorsdel ScriptableObject a Variables locals
+        currentHealth = data.maxHealth;
+        srAsteroid.color = data.color;
+        transform.localScale = Vector3.one * data.scale;
+        float speed = Random.Range(data.minSpeed, data.maxSpeed);
 
-       // rb.linearVelocity = direction.normalized * speed;
+        rbAsteroid.linearVelocity = direction.normalized * speed;
     }
 
     private void Update()
@@ -38,17 +39,26 @@ public class Asteroid : MonoBehaviour
         // TODO: Retornar l'ateroide al pool quan ja està massa lluny
         // Distancia al centre: transform.position.magnitude
         // Si és més gran que despawnDistance, cridem AsteroidPool.Instance.ReturnAsteroid(this)
-       
+
+        if(transform.position.magnitude > despawnDistance)
+            AsteroidPool.Instance.ReturnAsteroid(this);
     }
 
     public void TakeDamage(int amount)
     {
         // TODO: Restem amount al currentHealth
+        currentHealth -= amount;
 
         // TODO: si la currentHealth es menor a 0 
         // Sumem els punt al Player
         // Cridem al GameManger i el seu mètode per sumar scoreValue
         // Retornem l'asteroid a la seva pool
+
+        if(currentHealth <= 0)
+        {
+            GameManager.Instance.AddScore(data.points);
+            AsteroidPool.Instance.ReturnAsteroid(this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -58,5 +68,11 @@ public class Asteroid : MonoBehaviour
         // Retornem l'asteroid a la seva pool
         // Tip: if si l'asteroid ja està innactiu no fagis res
         //      (if (!gameObject.activeSelf) return;)
+        if (!gameObject.activeSelf) return;
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.LoseLife(data.damage);
+            AsteroidPool.Instance.ReturnAsteroid(this);
+        }
     }
 }
