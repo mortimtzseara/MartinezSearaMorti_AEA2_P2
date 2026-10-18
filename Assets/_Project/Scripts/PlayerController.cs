@@ -59,6 +59,10 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.ISpaceShipAct
         else if (GameManager.Instance.IsGameOver) return;
         // TODO: Dispara.
         //       BulletPool.Instance.GetBullet(firePoint.position, transform.rotation);
-        else BulletPool.Instance.GetBullet(firePoint.position, transform.rotation);
+        else
+        {
+            BulletPool.Instance.GetBullet(firePoint.position, transform.rotation);
+            AudioManager.Instance.ReproduceBulletSound();
+        }
     }
 }

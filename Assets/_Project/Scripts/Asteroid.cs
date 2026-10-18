@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 // Init() ja està implementat (el fem servir per donar-li tota la informació al prefab del Asteroid)
 [RequireComponent(typeof(Rigidbody2D))]
@@ -28,7 +29,7 @@ public class Asteroid : MonoBehaviour
         currentHealth = data.maxHealth;
         srAsteroid.color = data.color;
         transform.localScale = Vector3.one * data.scale;
-        float speed = Random.Range(data.minSpeed, data.maxSpeed);
+        float speed = UnityEngine.Random.Range(data.minSpeed, data.maxSpeed);
 
         rbAsteroid.linearVelocity = direction.normalized * speed;
     }
@@ -57,6 +58,7 @@ public class Asteroid : MonoBehaviour
         {
             GameManager.Instance.AddScore(data.points);
             AsteroidPool.Instance.ReturnAsteroid(this);
+            AudioManager.Instance.ReproduceExplosionSound();
         }
     }
 

@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroid
   despawnDistance: 15
+  psExplosion: {fileID: 7593332583876900478, guid: b68052612dfd9104298ee00c7b35faa9, type: 3}
 --- !u!58 &-642470011217263765
 CircleCollider2D:
   m_ObjectHideFlags: 0

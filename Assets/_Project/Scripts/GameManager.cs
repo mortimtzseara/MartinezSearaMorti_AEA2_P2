@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject); ho he tret pq sino no em va el restart tal i com està fet aquí
 	}
 
     private void Start()
@@ -41,11 +41,14 @@ public class GameManager : MonoBehaviour
         //   score = 0, lives = startingLives, IsGameOver = false
         //   amaga el panell GameOver
         //   Crida UpdateUI().
+        AudioManager.Instance.StopMusic();
+        CleanActiveAsteroids();
         score = 0;
         lives = startingLives;
         IsGameOver = false;
-
         gameOverPanel.SetActive(false);
+
+        AudioManager.Instance.ReproduceBackgroundMusic();
 
         UpdateUI();
     }
@@ -67,6 +70,7 @@ public class GameManager : MonoBehaviour
         if (!IsGameOver)
         {
 			lives -= amount;
+            AudioManager.Instance.ReproduceDamageSound();
 
 			if (lives <= 0) GameOver();
             UpdateUI();
@@ -79,10 +83,11 @@ public class GameManager : MonoBehaviour
         //     IsGameOver = true
         //     Fes aparèixer el panell de GameOver
         //     Congela el joc Time.timeScale = 0
-
+        AudioManager.Instance.StopMusic();
         IsGameOver = true;
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;
+        AudioManager.Instance.ReproduceGameOverSound();
     }
 
     // Assigna aquest mètode al Restart button: On Click () al Inspector.
@@ -94,6 +99,7 @@ public class GameManager : MonoBehaviour
         //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
     }
 
     private void UpdateUI()
@@ -102,5 +108,14 @@ public class GameManager : MonoBehaviour
         //   Exemple: scoreText.text = "Punts: " + score;
         scoreText.text = "Punts: " + score;
         livesText.text = "Vides: " + lives;
+    }
+    private void CleanActiveAsteroids()
+    {
+        Asteroid[] activeAsteroids = FindObjectsByType<Asteroid>(FindObjectsSortMode.None);
+
+        foreach (Asteroid asteroid in activeAsteroids)
+        {
+            AsteroidPool.Instance.ReturnAsteroid(asteroid);
+        }
     }
 }
